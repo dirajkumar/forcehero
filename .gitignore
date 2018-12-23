@@ -79,3 +79,9 @@ dist
 
 # IDE
 .idea
+
+# VS CODE 
+.vscode
+
+#MacOS Files 
+.DS_Store

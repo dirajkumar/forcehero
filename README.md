@@ -1,6 +1,6 @@
-# forcebench
+# forcehero
 
-> My extraordinary Nuxt.js project
+> forcehero
 
 ## Build Setup
 
