@@ -1,6 +1,6 @@
 # forcehero
 
-> forcehero
+> Best workbench alternative for Salesforce Devs/Admins
 
 ## Build Setup
 

@@ -1,7 +1,4 @@
-// require('dotenv').config()
 const pkg = require('./package')
-// const bodyParser = require('body-parser')
-// const constants = require('./server/constants.js')
 
 module.exports = {
   mode: 'universal',
@@ -35,6 +32,14 @@ module.exports = {
   },
 
   /*
+  ** Page transistions
+  */
+  transition: {
+    name: 'fade',
+    mode: 'out-in'
+  },
+
+  /*
   ** Global CSS
   */
   css: ['~/assets/style/app.styl', '~/assets/style/main.css'],
@@ -51,61 +56,12 @@ module.exports = {
     // Doc: https://github.com/nuxt-community/axios-module#usage
     '@nuxtjs/axios'
   ],
-
   /*
-   ** Axios module configuration
-   */
+  ** Axios module configuration
+  */
   axios: {
     // See https://github.com/nuxt-community/axios-module#options
   },
-
-  transition: {
-    name: 'fade',
-    mode: 'out-in'
-  },
-
-  // auth: {
-  //   strategies: {
-  //     local: {
-  //       endpoints: {
-  //         login: {
-  //           url: '/auth/login',
-  //           method: 'post',
-  //           propertyName: 'token'
-  //         },
-  //         logout: {
-  //           url: '/auth/logout',
-  //           method: 'post'
-  //         },
-  //         user: {
-  //           url: '/auth/user',
-  //           method: 'get',
-  //           propertyName: 'user'
-  //         }
-  //       }
-  //     }
-  //   }
-  // },
-  // auth: {
-  //   strategies: {
-  //     social: {
-  //       _scheme: 'oauth2',
-  //       authorization_endpoint: constants.SF_LOGIN_URL,
-  //       scope: ['api', 'chatter_api', 'custom_permissions', 'full', 'openid'],
-  //       response_type: 'code',
-  //       token_type: 'Bearer',
-  //       redirect_uri: constants.SF_REDIRECT_URL,
-  //       client_id: process.env.SF_CLIENT_ID,
-  //       token_key: 'access_token'
-  //     },
-  //     redirect: {
-  //       login: '/auth/login',
-  //       logout: '/auth/logout',
-  //       user: '/profile',
-  //       callback: '/auth/callback'
-  //     }
-  //   }
-  // },
 
   /*
   ** Build configuration
@@ -122,9 +78,6 @@ module.exports = {
           test: /\.(js|vue)$/,
           loader: 'eslint-loader',
           exclude: /(node_modules)/
-          // options: {
-          //   fix: true
-          // }
         })
       }
     }
