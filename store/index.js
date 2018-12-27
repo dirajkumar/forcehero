@@ -30,17 +30,17 @@ export const actions = {
   nuxtServerInit({ commit }, { req }) {
     console.log('nuxtServerInit===')
     const data = getCodeFromCookie(req)
-    if (!data) return
 
     console.log('code===', data)
-    commit('SET_AUTH', data)
+    if (data) {
+      commit('SET_AUTH', data)
+    }
   },
 
   nuxtClientInit({ state, commit }, { query, route, redirect }) {
     console.log('nuxtClientInit===')
-    debugger
     const { code } = query
-    if (route.path === '/home' && code) {
+    if (route.path === '/validate/session' && code) {
       const data = JSON.parse(window.atob(code))
       if (data.secret !== getSecret()) redirect('/error')
 

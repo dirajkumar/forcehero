@@ -59,6 +59,7 @@
 <script>
 import defaultSearch from '@/components/defaultSearch.vue'
 import logo from '@/components/logo.vue'
+import { removeCode } from '@/utils/auth'
 
 export default {
   components: {
@@ -75,7 +76,8 @@ export default {
       this.$nuxt.$emit('DEFAULT_DRAWER_CLICK', true)
     },
     onLogout() {
-      window.location.href = '/auth/logout'
+      removeCode()
+      window.location.href = '/'
     }
   }
 }

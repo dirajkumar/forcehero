@@ -64,9 +64,8 @@ export const getCodeFromCookie = req => {
     .split(';')
     .find(c => c.trim().startsWith('fh-code='))
   if (!codeCookie) return
-  console.log('codeCookie===', codeCookie)
-  const decodedBuffer = new Buffer(codeCookie.split('=')[1], 'base64')
-  return JSON.parse(decodedBuffer.toString('ascii'))
+  const code = Buffer.from(codeCookie.split('=')[1], 'base64')
+  return JSON.parse(code)
 }
 
 export const setSecret = secret =>

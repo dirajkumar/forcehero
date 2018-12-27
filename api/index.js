@@ -7,8 +7,13 @@ const app = express()
 app.get('/callback', async (req, res) => {
   console.log('req.query.state==', req.query.state)
   console.log('req.query.code==', req.query.code)
-  const decodedBuffer = new Buffer(req.query.state, 'base64')
-  const { secret, baseUrl } = JSON.parse(decodedBuffer.toString('ascii'))
+  // const decodedBuffer = new Buffer(req.query.state, 'base64')
+  const state = Buffer.from(req.query.state, 'base64')
+  // const {
+  //   secret,
+  //   baseUrl
+  // } = JSON.parse(decodedBuffer.toString('ascii'))
+  const { secret, baseUrl } = state
   const code = req.query.code
 
   const oauth2 = new jsforce.OAuth2({
@@ -43,7 +48,7 @@ app.get('/callback', async (req, res) => {
     const base64data = encodedBuffer.toString('base64')
 
     console.log('code===', JSON.stringify(data))
-    res.redirect('http://localhost:3000/home?code=' + base64data)
+    res.redirect('http://localhost:3000/validate/session?code=' + base64data)
   })
   console.log('callback end')
 })

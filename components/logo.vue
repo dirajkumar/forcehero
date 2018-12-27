@@ -2,7 +2,7 @@
   <nuxt-link 
     :style="cssProps"
     class="logo" 
-    to="/">
+    to="/home">
     <span class="forceText">{{ title1 }}</span>
     <span class="heroText">{{ title2 }}</span>
   </nuxt-link>
