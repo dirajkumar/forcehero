@@ -32,14 +32,25 @@
 </template>
 
 <script>
+import { getSalesforceAuthUrl } from '~/utils/auth'
+
 export default {
+  data() {
+    return {
+      title: 'forcehero'
+    }
+  },
   methods: {
     onProduction() {
-      console.log('Production')
-      // this.$router.go({ fullPath: 'http://localhost:3030/auth/login', params: {  isSandbox: false } })
+      const url = getSalesforceAuthUrl(false)
+      console.log('url==', url)
+      window.location.href = url
     },
     onSandbox() {
-      // this.$router.go({ fullPath: 'http://localhost:3030/auth/login', params: { isSandbox: true} })
+      const url = getSalesforceAuthUrl(true)
+      console.log('url==', url)
+      debugger
+      window.location.href = url
     }
   }
 }

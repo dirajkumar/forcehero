@@ -1,5 +1,5 @@
 <template>
-  <div :style="cssProps">
+  <div>
     <v-navigation-drawer 
       :mini-variant="miniVariant"
       v-model="drawer"
@@ -89,17 +89,6 @@ export default {
       title: 'ForceHero'
     }
   },
-  computed: {
-    cssProps() {
-      return {
-        '--primary-color': this.$vuetify.theme.primary
-        // '--primary-color-darker': this.applyColorContrast(
-        //   this.$vuetify.theme.primary,
-        //   -15
-        // )
-      }
-    }
-  },
   created() {
     // $on method will receive the updated count value from the sender component
     this.$nuxt.$on('DEFAULT_DRAWER_CLICK', data => {
@@ -111,6 +100,6 @@ export default {
 
 <style scoped>
 .primaryColor {
-  background-color: var(--primary-color);
+  background-color: var(--v-primary-base);
 }
 </style>

@@ -49,7 +49,7 @@
       </v-btn>
       <v-btn 
         icon
-        to="/auth/logout">
+        @click="onLogout">
         <v-icon>exit_to_app</v-icon>
       </v-btn>
     </v-toolbar-items>
@@ -73,6 +73,9 @@ export default {
   methods: {
     onDrawerClick() {
       this.$nuxt.$emit('DEFAULT_DRAWER_CLICK', true)
+    },
+    onLogout() {
+      window.location.href = '/auth/logout'
     }
   }
 }

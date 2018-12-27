@@ -1,4 +1,5 @@
 const pkg = require('./package')
+const bodyParser = require('body-parser')
 
 module.exports = {
   mode: 'universal',
@@ -39,6 +40,10 @@ module.exports = {
     mode: 'out-in'
   },
 
+  // router: {
+  //   middleware: 'checkAuth'
+  // },
+
   /*
   ** Global CSS
   */
@@ -47,13 +52,14 @@ module.exports = {
   /*
   ** Plugins to load before mounting the App
   */
-  plugins: ['@/plugins/vuetify', '~/plugins/colorContrast'],
+  plugins: ['@/plugins/vuetify'],
 
   /*
   ** Nuxt.js modules
   */
   modules: [
     // Doc: https://github.com/nuxt-community/axios-module#usage
+    'nuxt-client-init-module',
     '@nuxtjs/axios'
   ],
   /*
@@ -62,6 +68,8 @@ module.exports = {
   axios: {
     // See https://github.com/nuxt-community/axios-module#options
   },
+
+  serverMiddleware: [bodyParser.json(), '~/api/index.js'],
 
   /*
   ** Build configuration

@@ -1,19 +1,19 @@
 <template>
   <div>
-    Access Token: {{ $route.query.token }}
+    Access Token: {{ loggedInUser }}
   </div>
 </template>
 
 <script>
 export default {
-  data() {
-    return {
-      token: ''
-    }
+  middleware: 'isAuthenticated',
+  asyncData({ query, store }) {
+    console.log('')
   },
-  validate(data) {
-    console.log('data==', data.query)
-    this.token = data.query.token
+  computed: {
+    loggedInUser() {
+      return this.$store.state.user
+    }
   }
 }
 </script>
