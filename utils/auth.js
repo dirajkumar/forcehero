@@ -1,38 +1,4 @@
-import uuid from 'uuid'
-import queryString from 'query-string'
 import Cookie from 'js-cookie'
-import {
-  SF_PROD_URL,
-  SF_SANDBOX_URL,
-  APP_URL,
-  SF_REDIRECT_PATH,
-  SF_OAUTH_PATH,
-  SF_RESPONSE_TYPE,
-  SF_SCOPE,
-  SF_CLIENT_ID
-} from './constants'
-
-export const getSalesforceAuthUrl = isSandbox => {
-  const baseUrl = isSandbox == true ? SF_SANDBOX_URL : SF_PROD_URL
-
-  const secret = uuid.v4()
-  setSecret(secret)
-
-  let state = JSON.stringify({
-    secret,
-    baseUrl
-  })
-  state = window.btoa(state)
-
-  const params = {
-    redirect_uri: APP_URL + SF_REDIRECT_PATH,
-    response_type: SF_RESPONSE_TYPE,
-    client_id: SF_CLIENT_ID,
-    scope: SF_SCOPE,
-    state
-  }
-  return baseUrl + SF_OAUTH_PATH + '?' + queryString.stringify(params)
-}
 
 export const setCode = code => {
   if (process.server) return

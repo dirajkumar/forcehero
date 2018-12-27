@@ -1,5 +1,11 @@
 import axios from 'axios'
-import { getCode, getCodeFromCookie, setCode, getSecret } from '~/utils/auth'
+import {
+  getCode,
+  getCodeFromCookie,
+  setCode,
+  getSecret,
+  verifySecret
+} from '~/utils/auth'
 
 export const state = () => ({
   isAuth: false,
@@ -31,7 +37,6 @@ export const actions = {
     console.log('nuxtServerInit===')
     const data = getCodeFromCookie(req)
 
-    console.log('code===', data)
     if (data) {
       commit('SET_AUTH', data)
     }
@@ -42,7 +47,7 @@ export const actions = {
     const { code } = query
     if (route.path === '/validate/session' && code) {
       const data = JSON.parse(window.atob(code))
-      if (data.secret !== getSecret()) redirect('/error')
+      if (!verifySecret(data.secret)) redirect('/errors/session')
 
       setCode(code)
       commit('SET_AUTH', data)

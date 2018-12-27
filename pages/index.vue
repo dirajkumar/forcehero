@@ -32,7 +32,7 @@
 </template>
 
 <script>
-import { getSalesforceAuthUrl } from '~/utils/auth'
+import { setSecret } from '~/utils/auth'
 
 export default {
   data() {
@@ -41,16 +41,23 @@ export default {
     }
   },
   methods: {
-    onProduction() {
-      const url = getSalesforceAuthUrl(false)
-      console.log('url==', url)
-      window.location.href = url
+    async onProduction() {
+      const response = await this.$axios.get('/auth/loginInfo')
+      const secret = JSON.parse(window.atob(response.data.secret))
+      setSecret(secret)
+      console.log('url==', response.data.loginUrl)
+      window.location.href = response.data.loginUrl
     },
-    onSandbox() {
-      const url = getSalesforceAuthUrl(true)
-      console.log('url==', url)
-      debugger
-      window.location.href = url
+    async onSandbox() {
+      const response = await this.$axios.get('/auth/loginInfo', {
+        params: {
+          orgType: 'SANDBOX'
+        }
+      })
+      const secret = JSON.parse(window.atob(response.data.secret))
+      setSecret(secret)
+      console.log('url==', response.data.loginUrl)
+      window.location.href = response.data.loginUrl
     }
   }
 }

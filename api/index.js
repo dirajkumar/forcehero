@@ -1,56 +1,88 @@
 import 'dotenv/config'
 import jsforce from 'jsforce'
 import express from 'express'
+import queryString from 'query-string'
+import uuid from 'uuid'
 
 const app = express()
 
+app.use((error, req, res, next) => {
+  console.log('500=====', e)
+  res.redirect(process.env.APP_URL + '/errors/unknown')
+})
+
+app.get('/loginInfo', async (req, res) => {
+  try {
+    let baseUrl = process.env.SF_PROD_URL
+
+    if (req.query.orgType === 'SANDBOX') {
+      baseUrl = process.env.SF_SANDBOX_URL
+    }
+
+    const secret = uuid.v4()
+
+    let state = { secret, baseUrl }
+    state = Buffer.from(JSON.stringify(state)).toString('base64')
+
+    const params = {
+      redirect_uri: process.env.APP_URL + process.env.SF_REDIRECT_PATH,
+      response_type: process.env.SF_RESPONSE_TYPE,
+      client_id: process.env.SF_CLIENT_ID,
+      scope: process.env.SF_SCOPE,
+      state
+    }
+
+    res.json({
+      loginUrl:
+        baseUrl +
+        process.env.SF_OAUTH_PATH +
+        '?' +
+        queryString.stringify(params),
+      secret: Buffer.from(JSON.stringify(secret)).toString('base64')
+    })
+  } catch (e) {
+    console.log('error getting Url=====', e)
+    res.status(500)
+  }
+})
+
 app.get('/callback', async (req, res) => {
-  console.log('req.query.state==', req.query.state)
-  console.log('req.query.code==', req.query.code)
-  // const decodedBuffer = new Buffer(req.query.state, 'base64')
-  const state = Buffer.from(req.query.state, 'base64')
-  // const {
-  //   secret,
-  //   baseUrl
-  // } = JSON.parse(decodedBuffer.toString('ascii'))
-  const { secret, baseUrl } = state
-  const code = req.query.code
+  try {
+    const state = Buffer.from(req.query.state, 'base64')
+    const { secret, baseUrl } = JSON.parse(state)
+    const code = req.query.code
 
-  const oauth2 = new jsforce.OAuth2({
-    loginUrl: baseUrl,
-    clientId: process.env.SF_CLIENT_ID,
-    clientSecret: process.env.SF_CLIENT_SECRET,
-    redirectUri: process.env.APP_URL + '/auth/callback'
-  })
+    const oauth2 = new jsforce.OAuth2({
+      loginUrl: baseUrl,
+      clientId: process.env.SF_CLIENT_ID,
+      clientSecret: process.env.SF_CLIENT_SECRET,
+      redirectUri: process.env.APP_URL + '/auth/callback'
+    })
 
-  const conn = new jsforce.Connection({
-    oauth2: oauth2
-  })
+    const conn = new jsforce.Connection({
+      oauth2: oauth2
+    })
 
-  await conn.authorize(code, (err, userInfo) => {
-    console.log('err==', err)
-    if (err) {
-      res.redirect('http://localhost:3000/error')
-    }
-    console.log('Access Token: ' + conn.accessToken)
-    console.log('Instance URL: ' + conn.instanceUrl)
-    console.log('refreshToken: ' + conn.refreshToken)
-    console.log('UserInfo: ' + JSON.stringify(userInfo))
+    await conn.authorize(code, (err, userInfo) => {
+      if (err) {
+        res.redirect(process.env.APP_URL + '/errors/unauth')
+      }
 
-    const data = {
-      instanceUrl: conn.instanceUrl,
-      user: userInfo,
-      token: conn.accessToken,
-      secret
-    }
+      const data = {
+        instanceUrl: conn.instanceUrl,
+        user: userInfo,
+        token: conn.accessToken,
+        secret
+      }
 
-    const encodedBuffer = new Buffer(JSON.stringify(data))
-    const base64data = encodedBuffer.toString('base64')
+      const base64data = Buffer.from(JSON.stringify(data)).toString('base64')
 
-    console.log('code===', JSON.stringify(data))
-    res.redirect('http://localhost:3000/validate/session?code=' + base64data)
-  })
-  console.log('callback end')
+      res.redirect(process.env.APP_URL + '/validate/session?code=' + base64data)
+    })
+  } catch (e) {
+    console.log('error getting callback=====', e)
+    res.status(500)
+  }
 })
 
 // app.get('/logout', async (req, res) => {
