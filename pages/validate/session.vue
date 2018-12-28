@@ -1,11 +1,12 @@
 <template>
   <div class="text-xs-center">
-    Validating Session...
+    Loading...
   </div>
 </template>
 
 <script>
 export default {
+  layout: 'welcome',
   data() {
     return {
       title: ''

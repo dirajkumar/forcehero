@@ -12,7 +12,7 @@
     <v-toolbar-items>
       <v-btn 
         icon
-        to="=/">
+        to="/">
         <v-icon>power_settings_new</v-icon>
       </v-btn>
     </v-toolbar-items>

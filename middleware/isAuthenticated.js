@@ -1,5 +1,5 @@
 export default async ({ store, redirect }) => {
-  if (!store.getters.isAuthenticated) {
+  if (!store.state.isAuth) {
     return redirect('/errors/unauth')
   }
 }

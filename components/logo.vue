@@ -1,11 +1,10 @@
 <template>
-  <nuxt-link 
-    :style="cssProps"
-    class="logo" 
-    to="/home">
-    <span class="forceText">{{ title1 }}</span>
+  <a 
+    class="logo"
+    @click.prevent="onLogoClick">
+    <span class="forceText white--text">{{ title1 }}</span>
     <span class="heroText">{{ title2 }}</span>
-  </nuxt-link>
+  </a>
 </template>
 
 <script>
@@ -16,11 +15,13 @@ export default {
       title2: 'hero'
     }
   },
-  computed: {
-    cssProps() {
-      return {
-        '--secondary-color': this.$vuetify.theme.secondary
+  methods: {
+    onLogoClick() {
+      let url = '/'
+      if (this.$store.state.isAuth) {
+        url = '/home'
       }
+      this.$router.replace(url)
     }
   }
 }
@@ -33,12 +34,11 @@ export default {
 }
 .forceText {
   font-family: Panton-Regular;
-  color: white;
 }
 .heroText {
   font-family: Panton-Bold;
   font-weight: bolder;
-  color: var(--secondary-color);
+  color: var(--v-secondary-base);
   margin-left: -6px;
 }
 </style>

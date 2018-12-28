@@ -1,19 +1,19 @@
 <template>
   <div>
-    Access Token: {{ loggedInUser }}
+    Access Token: {{ accountObject }}
   </div>
 </template>
 
 <script>
 export default {
   middleware: 'isAuthenticated',
-  asyncData({ query, store }) {
-    console.log('')
-  },
   computed: {
-    loggedInUser() {
-      return this.$store.state.user
+    accountObject() {
+      return this.$store.state.objects
     }
+  },
+  created() {
+    this.$store.dispatch('objects/getList')
   }
 }
 </script>

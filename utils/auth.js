@@ -16,7 +16,6 @@ export const removeCode = () => {
 }
 
 export const getCode = () => {
-  debugger
   const code = window.sessionStorage.getItem('code')
   if (code) {
     return JSON.parse(window.atob(code))

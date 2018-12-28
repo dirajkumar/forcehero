@@ -6,12 +6,16 @@ import uuid from 'uuid'
 
 const app = express()
 
-app.use((error, req, res, next) => {
-  console.log('500=====', e)
-  res.redirect(process.env.APP_URL + '/errors/unknown')
+app.use((req, res, next) => {
+  res.header('Access-Control-Allow-Origin', '*')
+  res.header(
+    'Access-Control-Allow-Headers',
+    'Origin, X-Requested-With, Content-Type, Accept'
+  )
+  next()
 })
 
-app.get('/loginInfo', async (req, res) => {
+app.get('/auth/loginInfo', async (req, res) => {
   try {
     let baseUrl = process.env.SF_PROD_URL
 
@@ -42,11 +46,10 @@ app.get('/loginInfo', async (req, res) => {
     })
   } catch (e) {
     console.log('error getting Url=====', e)
-    res.status(500)
   }
 })
 
-app.get('/callback', async (req, res) => {
+app.get('/auth/callback', async (req, res) => {
   try {
     const state = Buffer.from(req.query.state, 'base64')
     const { secret, baseUrl } = JSON.parse(state)
@@ -56,7 +59,7 @@ app.get('/callback', async (req, res) => {
       loginUrl: baseUrl,
       clientId: process.env.SF_CLIENT_ID,
       clientSecret: process.env.SF_CLIENT_SECRET,
-      redirectUri: process.env.APP_URL + '/auth/callback'
+      redirectUri: process.env.APP_URL + process.env.SF_REDIRECT_PATH
     })
 
     const conn = new jsforce.Connection({
@@ -65,7 +68,9 @@ app.get('/callback', async (req, res) => {
 
     await conn.authorize(code, (err, userInfo) => {
       if (err) {
+        console.log('err==', err)
         res.redirect(process.env.APP_URL + '/errors/unauth')
+        return
       }
 
       const data = {
@@ -81,30 +86,35 @@ app.get('/callback', async (req, res) => {
     })
   } catch (e) {
     console.log('error getting callback=====', e)
-    res.status(500)
   }
 })
 
-// app.get('/logout', async (req, res) => {
-//   console.log('req.session.user==', JSON.stringify(req.session.user))
-//   if (!req.session.user) {
-//     res.redirect('http://localhost:3000/')
-//   }
-//   const conn = new jsforce.Connection({
-//     sessionId: req.session.user.accessToken,
-//     serverUrl: req.session.user.instanceUrl
-//   })
-//   delete req.session.user
+app.get('/auth/logout', async (req, res) => {
+  try {
+    console.log('req.query.code===', req.query.code)
+    const code = Buffer.from(req.query.code, 'base64')
+    console.log('code===', code)
+    const { accessToken, instanceUrl } = JSON.parse(code)
+    console.log('accessToken===', accessToken)
+    console.log('instanceUrl===', instanceUrl)
+    const conn = new jsforce.Connection({
+      sessionId: accessToken,
+      serverUrl: instanceUrl
+    })
 
-//   await conn.logout(err => {
-//     if (err) {
-//       return console.error(err)
-//     }
-//     res.redirect('http://localhost:3000/')
-//   })
-// })
+    await conn.logout(err => {
+      if (err) {
+        return console.error(err)
+      }
+      console.log('successfuully logged out')
+      res.redirect(process.env.APP_URL)
+    })
+  } catch (e) {
+    console.log('error getting callback=====', e)
+  }
+})
 
 module.exports = {
-  path: '/auth',
+  path: '/api',
   handler: app
 }

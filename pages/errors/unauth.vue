@@ -20,6 +20,6 @@
 
 <script>
 export default {
-  layout: 'error'
+  layout: 'welcome'
 }
 </script>
