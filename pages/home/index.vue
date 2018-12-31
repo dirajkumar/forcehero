@@ -6,7 +6,7 @@
 
 <script>
 export default {
-  middleware: 'isAuthenticated',
+  // middleware: 'isAuthenticated',
   computed: {
     accountObject() {
       return this.$store.state.objects

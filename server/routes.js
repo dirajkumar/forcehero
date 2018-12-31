@@ -1,21 +1,14 @@
 import 'dotenv/config'
-import jsforce from 'jsforce'
 import express from 'express'
+import jsforce from 'jsforce'
 import queryString from 'query-string'
 import uuid from 'uuid'
 
-const app = express()
+import { encrypt, decrypt } from '../utils/crypt'
 
-app.use((req, res, next) => {
-  res.header('Access-Control-Allow-Origin', '*')
-  res.header(
-    'Access-Control-Allow-Headers',
-    'Origin, X-Requested-With, Content-Type, Accept'
-  )
-  next()
-})
+const router = express.Router()
 
-app.get('/auth/loginInfo', async (req, res) => {
+router.get('/api/auth/loginInfo', async (req, res) => {
   try {
     let baseUrl = process.env.SF_PROD_URL
 
@@ -23,9 +16,9 @@ app.get('/auth/loginInfo', async (req, res) => {
       baseUrl = process.env.SF_SANDBOX_URL
     }
 
-    const secret = uuid.v4()
-
-    let state = { secret, baseUrl }
+    let state = {
+      baseUrl
+    }
     state = Buffer.from(JSON.stringify(state)).toString('base64')
 
     const params = {
@@ -36,23 +29,26 @@ app.get('/auth/loginInfo', async (req, res) => {
       state
     }
 
-    res.json({
+    req.session = null
+
+    const data = {
       loginUrl:
         baseUrl +
         process.env.SF_OAUTH_PATH +
         '?' +
-        queryString.stringify(params),
-      secret: Buffer.from(JSON.stringify(secret)).toString('base64')
-    })
+        queryString.stringify(params)
+    }
+
+    res.send(encrypt(JSON.stringify(data)))
   } catch (e) {
     console.log('error getting Url=====', e)
   }
 })
 
-app.get('/auth/callback', async (req, res) => {
+router.get('/api/auth/callback', async (req, res) => {
   try {
     const state = Buffer.from(req.query.state, 'base64')
-    const { secret, baseUrl } = JSON.parse(state)
+    const { baseUrl } = JSON.parse(state)
     const code = req.query.code
 
     const oauth2 = new jsforce.OAuth2({
@@ -66,55 +62,45 @@ app.get('/auth/callback', async (req, res) => {
       oauth2: oauth2
     })
 
-    await conn.authorize(code, (err, userInfo) => {
-      if (err) {
-        console.log('err==', err)
-        res.redirect(process.env.APP_URL + '/errors/unauth')
-        return
-      }
+    const userInfo = await conn.authorize(code)
+    const data = {
+      instanceUrl: conn.instanceUrl,
+      user: userInfo,
+      token: conn.accessToken
+    }
+    console.log('data===', JSON.stringify(data))
 
-      const data = {
-        instanceUrl: conn.instanceUrl,
-        user: userInfo,
-        token: conn.accessToken,
-        secret
-      }
-
-      const base64data = Buffer.from(JSON.stringify(data)).toString('base64')
-
-      res.redirect(process.env.APP_URL + '/validate/session?code=' + base64data)
-    })
-  } catch (e) {
-    console.log('error getting callback=====', e)
+    const encryptedCode = encrypt(JSON.stringify(data))
+    req.session.code = encryptedCode
+    res.redirect(process.env.APP_URL + '/home')
+  } catch (err) {
+    console.log('err==', err)
+    res.redirect(process.env.APP_URL + '/errors/unknown')
+    return
   }
 })
 
-app.get('/auth/logout', async (req, res) => {
+router.get('/api/auth/logout', async (req, res) => {
   try {
-    console.log('req.query.code===', req.query.code)
-    const code = Buffer.from(req.query.code, 'base64')
-    console.log('code===', code)
-    const { accessToken, instanceUrl } = JSON.parse(code)
+    console.log('code===', req.query.code)
+    const data = decrypt(req.query.code)
+    const { accessToken, instanceUrl } = JSON.parse(data)
     console.log('accessToken===', accessToken)
     console.log('instanceUrl===', instanceUrl)
     const conn = new jsforce.Connection({
       sessionId: accessToken,
       serverUrl: instanceUrl
     })
-
+    req.session = null
     await conn.logout(err => {
       if (err) {
         return console.error(err)
       }
       console.log('successfuully logged out')
-      res.redirect(process.env.APP_URL)
     })
   } catch (e) {
     console.log('error getting callback=====', e)
   }
 })
 
-module.exports = {
-  path: '/api',
-  handler: app
-}
+export default router

@@ -1,44 +1,28 @@
 import Cookie from 'js-cookie'
+import { decrypt } from './crypt'
 
-export const setCode = code => {
+export const setCode = () => {
   if (process.server) return
 
+  const base64Session = Cookie.get('session') || null
+  if (!base64Session) return
+
+  const baseObj = window.atob(base64Session) || null
+  if (!baseObj) return
+
+  const data = JSON.parse(baseObj)['code'] || null
+  if (!data) return
+
+  const code = decrypt(data)
   window.sessionStorage.setItem('code', code)
-  Cookie.set('fh-code', code)
-}
-
-export const removeCode = () => {
-  if (process.server) return
-  window.sessionStorage.removeItem('code')
-  window.sessionStorage.removeItem('secret')
-  Cookie.remove('fh-code')
-  window.sessionStorage.setItem('logout', Date.now())
 }
 
 export const getCode = () => {
-  const code = window.sessionStorage.getItem('code')
-  if (code) {
-    return JSON.parse(window.atob(code))
-  }
-  return null
+  if (process.server) return null
+
+  return window.sessionStorage.getItem('code') || null
 }
 
-export const getCodeFromCookie = req => {
-  if (!req.headers.cookie) return
-  const codeCookie = req.headers.cookie
-    .split(';')
-    .find(c => c.trim().startsWith('fh-code='))
-  if (!codeCookie) return
-  const code = Buffer.from(codeCookie.split('=')[1], 'base64')
-  return JSON.parse(code)
+export const removeCode = () => {
+  window.sessionStorage.removeItem('code')
 }
-
-export const setSecret = secret =>
-  window.sessionStorage.setItem('secret', secret)
-
-export const getSecret = () => {
-  if (process.server) return
-  return window.sessionStorage.getItem('secret')
-}
-
-export const verifySecret = secret => window.sessionStorage.secret === secret

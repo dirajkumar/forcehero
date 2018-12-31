@@ -1,4 +1,6 @@
 import jsforce from 'jsforce'
+import cookie from 'cookie'
+import { encrypt, decrypt } from '@/utils/crypt'
 import {
   getCode,
   getCodeFromCookie,
@@ -7,10 +9,10 @@ import {
   setSecret,
   verifySecret
 } from '~/utils/auth'
-// import sf from '~/utils/sf'
 
 export const state = () => ({
   isAuth: false,
+  code: null,
   baseUrl: null,
   token: null,
   user: null
@@ -30,74 +32,30 @@ export const mutations = {
     state.token = null
     state.user = null
     state.isAuth = false
+  },
+  SET_CODE: (state, code) => {
+    console.log('SET_CODE', code)
+    if (code) {
+      state.code = code
+      return
+    }
   }
 }
 
 export const actions = {
-  // nuxtServerInit({ commit, state }, { req, route, redirect }) {
-  //   console.log('nuxtServerInit===', state)
-  //   const code = getCodeFromCookie(req)
-
-  //   if (!code) return
-
-  //   // if (state.isAuth) {
-  //   //   sf.connection(code)
-  //   // }
-
-  //   commit('SET_AUTH', code)
-  //   if (route.path === '/') {
-  //     redirect('/home')
-  //   }
-  // },
-
-  // nuxtClientInit({ state, commit }, { query, route, redirect }) {
-  //   console.log('nuxtClientInit===')
-  //   const { code } = query
-  //   let data = null
-
-  //   if (route.path === '/validate/session' && code) {
-  //     if (!verifySecret(data.secret)) redirect('/errors/session')
-  //     setCode(code)
-  //     redirect('/home')
-  //     commit('SET_AUTH', data)
-  //   } else if (!state.isAuth) {
-  //     data = getCode()
-  //     if (data) {
-  //       commit('SET_AUTH', data)
-  //     }
-  //   }
-  //   // data = getCode()
-  //   // if (state.isAuth && data && !sf._conn.token) {
-  //   //   console.log('data===', data)
-  //   //   sf.connection(data)
-  //   // }
-  // },
-
-  nuxtServerInit({ commit }, { req }) {
+  nuxtServerInit({ commit }, { req, res, state, route, redirect, app }) {
     console.log('nuxtServerInit===')
-    const data = getCodeFromCookie(req)
-
-    if (data) {
-      commit('SET_AUTH', data)
-    }
   },
 
-  nuxtClientInit({ state, commit }, { query, route, redirect }) {
+  nuxtClientInit({ commit }, { route, redirect }) {
     console.log('nuxtClientInit===')
-    const { code } = query
-    if (route.path === '/validate/session' && code) {
-      const data = JSON.parse(window.atob(code))
-      if (!verifySecret(data.secret)) redirect('/errors/session')
 
-      setCode(code)
-      commit('SET_AUTH', data)
-      redirect('/home')
-    } else if (!state.isAuth) {
-      const data = getCode()
-      if (data) {
-        commit('SET_AUTH', data)
-      }
+    const code = getCode()
+    if (code) {
+      commit('SET_AUTH', code)
     }
+
+    if (state.isAuth && !this.$sf) redirect('/errors/session')
   },
 
   async login({ state, commit }, { orgType }) {
@@ -106,18 +64,30 @@ export const actions = {
         orgType
       }
     })
-    const secret = JSON.parse(window.atob(response.data.secret))
-    setSecret(secret)
-    return response.data.loginUrl
+    debugger
+    const code = decrypt(response.data)
+    if (!code) return null
+
+    const data = JSON.parse(code)
+    if (!data || !data.loginUrl) return null
+
+    return data.loginUrl
   },
 
   async logout({ state, commit, route }) {
-    const { token, instanceUrl } = getCode()
-    const conn = new jsforce.Connection({
-      sessionId: token,
-      serverUrl: instanceUrl
+    console.log('$sf logout===', this.$sf)
+    console.log('code logout===', getCode())
+    const code = getCode()
+    if (!code) return
+
+    const response = await this.app.$axios.get('/api/auth/logout', {
+      params: {
+        code: encrypt(JSON.stringify(code))
+      }
     })
-    await conn.logout(err => {
+    // commit('SET_AUTH', null)
+    // removeCode()
+    await this.$sf.logout(err => {
       if (err) {
         console.error(err)
       }

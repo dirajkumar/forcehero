@@ -52,16 +52,12 @@ module.exports = {
   /*
   ** Plugins to load before mounting the App
   */
-  plugins: ['@/plugins/vuetify'],
+  plugins: ['@/plugins/vuetify', '~/plugins/sf.js'],
 
   /*
   ** Nuxt.js modules
   */
-  modules: [
-    // Doc: https://github.com/nuxt-community/axios-module#usage
-    'nuxt-client-init-module',
-    '@nuxtjs/axios'
-  ],
+  modules: ['nuxt-client-init-module', '@nuxtjs/axios'],
   /*
   ** Axios module configuration
   */
@@ -69,7 +65,7 @@ module.exports = {
     // See https://github.com/nuxt-community/axios-module#options
   },
 
-  serverMiddleware: [bodyParser.json(), '~/api/index.js'],
+  // serverMiddleware: [bodyParser.json(), '~/api/index.js'],
 
   /*
   ** Build configuration
@@ -88,6 +84,12 @@ module.exports = {
           exclude: /(node_modules)/
         })
       }
+    }
+  },
+
+  vue: {
+    config: {
+      devtools: true
     }
   }
 }
