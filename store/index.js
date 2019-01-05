@@ -64,7 +64,6 @@ export const actions = {
         orgType
       }
     })
-    debugger
     const code = decrypt(response.data)
     if (!code) return null
 
@@ -77,23 +76,22 @@ export const actions = {
   async logout({ state, commit, route }) {
     console.log('$sf logout===', this.$sf)
     console.log('code logout===', getCode())
+    debugger
     const code = getCode()
     if (!code) return
 
-    const response = await this.app.$axios.get('/api/auth/logout', {
-      params: {
-        code: encrypt(JSON.stringify(code))
-      }
-    })
-    // commit('SET_AUTH', null)
-    // removeCode()
+    // const response = await this.app.$axios.get('/api/auth/logout', {
+    //   params: {
+    //     code: encrypt(JSON.stringify(code))
+    //   }
+    // })
+    commit('SET_AUTH', null)
+    removeCode()
     await this.$sf.logout(err => {
       if (err) {
         console.error(err)
       }
       console.log('successfuully logged out')
-      commit('SET_AUTH', null)
-      removeCode()
     })
   }
 }

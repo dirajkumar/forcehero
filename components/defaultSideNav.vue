@@ -13,7 +13,7 @@
       <v-list dark>
         <v-list-tile>
           <v-list-tile-action>
-            <v-icon>home</v-icon>
+            <v-icon>mdi-home</v-icon>
           </v-list-tile-action>
           <v-list-tile-title class="subheading mt-1">
             Home
@@ -25,7 +25,7 @@
       <v-list dark>
         <v-list-tile>
           <v-list-tile-action>
-            <v-icon>dashboard</v-icon>
+            <v-icon>mdi-database</v-icon>
           </v-list-tile-action>
           <v-list-tile-title>
             Schema
