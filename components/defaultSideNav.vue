@@ -71,7 +71,7 @@
           <v-list-tile-action>
             <v-icon>web_asset</v-icon>
           </v-list-tile-action>
-          <v-list-tile-title>
+          <v-list-tile-title to="/rest">
             Rest Api
           </v-list-tile-title>
         </v-list-tile>

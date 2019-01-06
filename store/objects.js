@@ -15,7 +15,16 @@ export const actions = {
     }
     console.log('$sf===', this.$sf)
     try {
-      const meta = await this.$sf.sobject('Account').describe()
+      // const meta = await this.$sf.sobject('Account').describe()
+      // const meta = await this.$sf.metadata.describe()
+      const meta = await this.$sf.metadata.list(
+        [
+          {
+            type: 'CustomObject'
+          }
+        ],
+        '43.0'
+      )
       console.log('meta===', meta)
       commit('SET_LIST', meta)
     } catch (err) {

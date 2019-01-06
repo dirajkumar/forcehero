@@ -12,33 +12,17 @@ import {
 
 export const state = () => ({
   isAuth: false,
-  code: null,
-  baseUrl: null,
-  token: null,
-  user: null
+  apiVersion: '43.0'
 })
 
 export const mutations = {
   SET_AUTH: (state, code) => {
     console.log('SET_AUTH', code)
-    if (code) {
-      state.baseUrl = code.instanceUrl
-      state.token = code.token
-      state.user = code.user
-      state.isAuth = true
-      return
-    }
-    state.baseUrl = null
-    state.token = null
-    state.user = null
-    state.isAuth = false
+    state.isAuth = code ? true : false
   },
-  SET_CODE: (state, code) => {
-    console.log('SET_CODE', code)
-    if (code) {
-      state.code = code
-      return
-    }
+  SET_API_VERSION: (state, apiVersion) => {
+    console.log('SET_API_VERSION', apiVersion)
+    state.apiVersion = apiVersion
   }
 }
 
@@ -99,5 +83,8 @@ export const actions = {
 export const getters = {
   isAuthenticated(state) {
     return state.isAuth
+  },
+  apiVersion(state) {
+    return state.apiVersion
   }
 }
