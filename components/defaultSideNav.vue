@@ -10,7 +10,7 @@
       app
       temporary
     >
-      <v-list dark>
+      <!-- <v-list dark>
         <v-list-tile>
           <v-list-tile-action>
             <v-icon>mdi-home</v-icon>
@@ -21,60 +21,47 @@
         </v-list-tile>
       </v-list>
       
-      <v-divider light/>
+      <v-divider light/> -->
+
       <v-list dark>
-        <v-list-tile>
-          <v-list-tile-action>
-            <v-icon>mdi-database</v-icon>
-          </v-list-tile-action>
-          <v-list-tile-title>
-            Schema
-          </v-list-tile-title>
-        </v-list-tile>
-
-        <v-list-group
-          prepend-icon="list"
-          value="true"
-        >
-          <v-list-tile slot="activator">
-            <v-list-tile-title>Data</v-list-tile-title>
-          </v-list-tile>
-        
-          <v-list-tile>
+        <template v-for="item in navigationItems">
+          <v-list-tile 
+            v-if="!item.hasChildren"
+            :key="item.to"
+            :to="item.to"
+          >
             <v-list-tile-action>
-              <v-icon>query_builder</v-icon>
+              <v-icon>{{ item.icon }}</v-icon>
             </v-list-tile-action>
             <v-list-tile-title>
-              Query
+              {{ item.label }}
             </v-list-tile-title>
           </v-list-tile>
-          <v-list-tile>
-            <v-list-tile-action>
-              <v-icon>edit</v-icon>
-            </v-list-tile-action>
-            <v-list-tile-title>
-              Modify
-            </v-list-tile-title>
-          </v-list-tile>
-        </v-list-group>
 
-        <v-list-tile>
-          <v-list-tile-action>
-            <v-icon>album</v-icon>
-          </v-list-tile-action>
-          <v-list-tile-title>
-            Metadata
-          </v-list-tile-title>
-        </v-list-tile>
-
-        <v-list-tile>
-          <v-list-tile-action>
-            <v-icon>web_asset</v-icon>
-          </v-list-tile-action>
-          <v-list-tile-title to="/rest">
-            Rest Api
-          </v-list-tile-title>
-        </v-list-tile>
+          <v-list-group
+            v-if="item.hasChildren"
+            :key="item.to"
+            prepend-icon="list"
+            value="true"
+          >
+            <v-list-tile slot="activator">
+              <v-list-tile-title>{{ item.label }}</v-list-tile-title>
+            </v-list-tile>
+          
+            <v-list-tile 
+              v-for="child in item.children"
+              :key="child.to"
+              :to="child.to"
+            >
+              <v-list-tile-action>
+                <v-icon>{{ child.icon }}</v-icon>
+              </v-list-tile-action>
+              <v-list-tile-title>
+                {{ child.label }}
+              </v-list-tile-title>
+            </v-list-tile>
+          </v-list-group>
+        </template>
       </v-list>
     </v-navigation-drawer>
   </div>
@@ -89,8 +76,12 @@ export default {
       title: 'ForceHero'
     }
   },
+  computed: {
+    navigationItems() {
+      return this.$store.getters.navigation
+    }
+  },
   created() {
-    // $on method will receive the updated count value from the sender component
     this.$nuxt.$on('DEFAULT_DRAWER_CLICK', data => {
       this.drawer = data
     })

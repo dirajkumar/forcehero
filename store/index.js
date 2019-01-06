@@ -1,6 +1,7 @@
 import jsforce from 'jsforce'
 import cookie from 'cookie'
 import { encrypt, decrypt } from '@/utils/crypt'
+import { navigation } from '@/utils/defaultState'
 import {
   getCode,
   getCodeFromCookie,
@@ -12,7 +13,8 @@ import {
 
 export const state = () => ({
   isAuth: false,
-  apiVersion: '43.0'
+  apiVersion: '43.0',
+  navigation
 })
 
 export const mutations = {
@@ -86,5 +88,8 @@ export const getters = {
   },
   apiVersion(state) {
     return state.apiVersion
+  },
+  navigation(state) {
+    return state.navigation
   }
 }

@@ -12,43 +12,46 @@
         <logo />
       </v-toolbar-title>
       <v-spacer />
+
       <default-search class="hidden-md-and-down"/>
-      <v-toolbar-items class="pr-10">
-        <v-btn 
-          flat
-          class="hidden-md-and-down"
-          to="/schema">Schema
-        </v-btn>
-        <v-menu 
-          :nudge-width="100" 
-          class="hidden-md-and-down"
-          offset-y>
+
+      <v-toolbar-items class="pr-10 hidden-md-and-down">
+        <template v-for="item in navigationItems" >
           <v-btn
-            slot="activator"
+            v-if="!item.hasChildren"
+            :key="item.to"
+            :to="item.to"
             flat
-            dark>
-            Data
+          >
+            {{ item.label }}
           </v-btn>
-          <v-list>
-            <v-list-tile 
-              to="/data/query">
-              <v-list-tile-title>Query</v-list-tile-title>
-            </v-list-tile>
-            <v-list-tile 
-              to="/data/modify">
-              <v-list-tile-title>Modity</v-list-tile-title>
-            </v-list-tile>
-          </v-list>
-        </v-menu>
-        <v-btn 
-          flat
-          class="hidden-md-and-down"
-          to="/metadata">Metadata</v-btn>
-        <v-btn 
-          flat
-          class="hidden-md-and-down"
-          to="/rest">Rest Api</v-btn>
+          <v-menu
+            v-if="item.hasChildren"
+            :key="item.to"
+            :nudge-width="100" 
+            offset-y>
+            <v-btn
+              slot="activator"
+              flat
+              dark>
+              {{ item.label }}
+            </v-btn>
+            <v-list>
+              <v-list-tile
+                v-for="child in item.children"
+                :key="child.to"
+                :to="child.to">
+                <v-list-tile-title>{{ child.label }}</v-list-tile-title>
+              </v-list-tile>
+            </v-list>
+          </v-menu>
+        </template>
         <default-user class="pt-2"/>
+      </v-toolbar-items>
+
+      <v-toolbar-items class="pr-10 hidden-lg-and-up">
+        <default-medium-search />
+        <default-user />
       </v-toolbar-items>
     </v-toolbar>
   </div>
@@ -56,18 +59,25 @@
 
 <script>
 import defaultSearch from '@/components/defaultSearch.vue'
+import defaultMediumSearch from '@/components/defaultMediumSearch.vue'
 import defaultUser from '@/components/defaultUser.vue'
 import logo from '@/components/logo.vue'
 
 export default {
   components: {
     defaultSearch,
+    defaultMediumSearch,
     defaultUser,
     logo
   },
   data() {
     return {
       title: ''
+    }
+  },
+  computed: {
+    navigationItems() {
+      return this.$store.getters.navigation
     }
   },
   methods: {

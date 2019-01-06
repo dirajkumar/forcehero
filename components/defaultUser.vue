@@ -5,6 +5,7 @@
       :close-on-content-click="false"
       :nudge-width="200"
       nudge-bottom="10"
+      transition="slide-y-transition"
       offset-y
     >
       <v-btn 
