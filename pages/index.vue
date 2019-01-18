@@ -29,8 +29,6 @@
 </template>
 
 <script>
-import { setSecret } from '~/utils/auth'
-
 export default {
   layout: 'welcome',
   data() {

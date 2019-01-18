@@ -1,3 +1,5 @@
+export const isAuth = false
+export const apiVersion = '43.0'
 export const navigation = [
   {
     label: 'Schema',

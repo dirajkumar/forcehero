@@ -1,19 +1,10 @@
-import jsforce from 'jsforce'
-import cookie from 'cookie'
 import { encrypt, decrypt } from '@/utils/crypt'
-import { navigation } from '@/utils/defaultState'
-import {
-  getCode,
-  getCodeFromCookie,
-  setCode,
-  removeCode,
-  setSecret,
-  verifySecret
-} from '~/utils/auth'
+import { isAuth, apiVersion, navigation } from '@/utils/defaultState'
+import { getCode, removeCode } from '~/utils/auth'
 
 export const state = () => ({
-  isAuth: false,
-  apiVersion: '43.0',
+  isAuth,
+  apiVersion,
   navigation
 })
 
@@ -83,13 +74,7 @@ export const actions = {
 }
 
 export const getters = {
-  isAuthenticated(state) {
-    return state.isAuth
-  },
-  apiVersion(state) {
-    return state.apiVersion
-  },
-  navigation(state) {
-    return state.navigation
-  }
+  isAuthenticated: state => state.isAuth,
+  apiVersion: state => state.apiVersion,
+  navigation: state => state.navigation
 }

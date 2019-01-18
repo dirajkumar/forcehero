@@ -1,11 +1,10 @@
 export const state = () => ({
-  obj: {}
+  info: {}
 })
 
 export const mutations = {
   SET_LOGGED_USER: (state, user) => {
-    debugger
-    state.obj = {
+    state.info = {
       id: user.user_id,
       name: user.display_name,
       email: user.email,
@@ -21,12 +20,11 @@ export const mutations = {
 }
 
 export const actions = {
-  async getUserInfo({ commit, state, req }) {
+  async retrieveUser({ commit, state, req }) {
     if (!this.$sf) {
       return null
     }
     try {
-      debugger
       const user = await this.$sf.identity()
       console.log('user===', user)
 
@@ -38,7 +36,5 @@ export const actions = {
 }
 
 export const getters = {
-  getUser(state) {
-    return state.obj
-  }
+  getUser: state => state.info
 }

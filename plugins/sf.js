@@ -16,17 +16,17 @@ export default async (ctx, inject) => {
       instanceUrl: data.instanceUrl,
       proxyUrl: 'https://node-salesforce-proxy.herokuapp.com/proxy/'
     })
-    try {
-      const res = await sf.identity()
-      console.log('user ID: ' + res.user_id)
-      console.log('organization ID: ' + res.organization_id)
-      console.log('username: ' + res.username)
-      console.log('display name: ' + res.display_name)
-    } catch (e) {
-      console.log('e=== ' + e)
-      sf = null
-      ctx.redirect('/errors/session')
-    }
+    // try {
+    //   const res = await sf.identity()
+    //   console.log('user ID: ' + res.user_id)
+    //   console.log('organization ID: ' + res.organization_id)
+    //   console.log('username: ' + res.username)
+    //   console.log('display name: ' + res.display_name)
+    // } catch (e) {
+    //   console.log('e=== ' + e)
+    //   sf = null
+    //   ctx.redirect('/errors/session')
+    // }
   }
   inject('sf', sf)
   ctx.$sf = sf

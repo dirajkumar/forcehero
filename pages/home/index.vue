@@ -1,6 +1,6 @@
 <template>
   <div>
-    Access Token: {{ accountObject }}
+    Access Token: {{ '' }}
   </div>
 </template>
 
@@ -11,14 +11,14 @@ export default {
   //   await store.dispatch('objects/getList')
   // },
 
-  computed: {
-    accountObject() {
-      return this.$store.state.objects
-    }
-  },
+  // computed: {
+  //   accountObject() {
+  //     return this.$store.getters['schema/getObjectList']
+  //   }
+  // },
   created() {
-    this.$store.dispatch('objects/getList')
-    // // console.log('Fetch method app====', app)
+    // this.$store.dispatch('schema/getObjects')
+    console.log('Fetch method app====')
     // console.log('Fetch method this====', app.$sf)
     // const meta = await this.$sf.sobject('Account').describe()
     // console.log('meta===', meta)

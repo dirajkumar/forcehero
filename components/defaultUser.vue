@@ -115,7 +115,7 @@ export default {
     }
   },
   created() {
-    this.$store.dispatch('user/getUserInfo')
+    this.$store.dispatch('user/retrieveUser')
   },
   methods: {
     onSettings() {
