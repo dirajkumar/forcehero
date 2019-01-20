@@ -20,7 +20,7 @@ export const mutations = {
 }
 
 export const actions = {
-  async retrieveUser({ commit, state, req }) {
+  async retrieveUser({ commit }) {
     if (!this.$sf) {
       return null
     }

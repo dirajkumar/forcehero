@@ -1,6 +1,4 @@
 import jsforce from 'jsforce'
-import cookie from 'cookie'
-import { decrypt } from '../utils/crypt'
 import { setCode, getCode } from '../utils/auth'
 
 export default async (ctx, inject) => {

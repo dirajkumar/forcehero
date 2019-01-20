@@ -1,4 +1,4 @@
-import { encrypt, decrypt } from '@/utils/crypt'
+import { decrypt } from '@/utils/crypt'
 import { isAuth, apiVersion, navigation } from '@/utils/defaultState'
 import { getCode, removeCode } from '~/utils/auth'
 
@@ -20,11 +20,11 @@ export const mutations = {
 }
 
 export const actions = {
-  nuxtServerInit({ commit }, { req, res, state, route, redirect, app }) {
-    console.log('nuxtServerInit===')
-  },
+  // nuxtServerInit({ commit }, { req, res, state, route, redirect, app }) {
+  //   console.log('nuxtServerInit===')
+  // },
 
-  nuxtClientInit({ commit }, { route, redirect }) {
+  nuxtClientInit({ commit }, { redirect }) {
     console.log('nuxtClientInit===')
 
     const code = getCode()
@@ -35,12 +35,13 @@ export const actions = {
     if (state.isAuth && !this.$sf) redirect('/errors/session')
   },
 
-  async login({ state, commit }, { orgType }) {
+  async login({ commit }, { orgType }) {
     const response = await this.app.$axios.get('/api/auth/loginInfo', {
       params: {
         orgType
       }
     })
+    commit('SET_AUTH', null)
     const code = decrypt(response.data)
     if (!code) return null
 
@@ -50,7 +51,7 @@ export const actions = {
     return data.loginUrl
   },
 
-  async logout({ state, commit, route }) {
+  async logout({ commit }) {
     console.log('$sf logout===', this.$sf)
     console.log('code logout===', getCode())
     debugger

@@ -9,7 +9,7 @@ export const mutations = {
 }
 
 export const actions = {
-  async retrieveObjectList({ commit, rootState, req, route }) {
+  async retrieveObjectList({ commit }) {
     if (!this.$sf) {
       return null
     }

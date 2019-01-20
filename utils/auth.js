@@ -1,7 +1,7 @@
 import Cookie from 'js-cookie'
 import { decrypt } from './crypt'
 
-export const setCode = req => {
+export const setCode = () => {
   if (process.server) return
 
   const base64Session = Cookie.get('session') || null
@@ -23,7 +23,7 @@ export const getCode = () => {
   return window.sessionStorage.getItem('code') || null
 }
 
-export const getCodeFromSession = req => {
+export const getCodeFromSession = () => {
   if (process.client) return null
 
   return window.sessionStorage.getItem('code') || null

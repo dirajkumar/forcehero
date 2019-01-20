@@ -34,8 +34,6 @@
 </template>
 
 <script>
-import _ from 'lodash'
-
 export default {
   middleware: 'isAuthenticated',
   data() {
@@ -52,9 +50,9 @@ export default {
   },
   watch: {
     objectSearchTerm: function() {
-      if (_.isEmpty(this.objectSearchTerm)) {
-        return
-      }
+      // if (_.isEmpty(this.objectSearchTerm)) {
+      //   return
+      // }
     }
   },
   created() {
