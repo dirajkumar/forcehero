@@ -1,7 +1,19 @@
 <template>
   <a class="logo" @click.prevent="onLogoClick">
-    <span class="forceText white--text">{{ title1 }}</span>
-    <span class="heroText">{{ title2 }}</span>
+    <v-layout row>
+      <div class="pt-1">
+        <img
+          src="../assets/images/logo.png"
+          alt="force hero"
+          height="25"
+          width="40"
+        />
+      </div>
+      <div class="pl-2 hidden-sm-and-down">
+        <span class="forceText white--text">{{ title1 }}</span>
+        <span class="heroText">{{ title2 }}</span>
+      </div>
+    </v-layout>
   </a>
 </template>
 
