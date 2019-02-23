@@ -1,12 +1,11 @@
 const pkg = require('./package')
-const bodyParser = require('body-parser')
 
 module.exports = {
   mode: 'universal',
 
   /*
-  ** Headers of the page
-  */
+   ** Headers of the page
+   */
   head: {
     title: pkg.name,
     meta: [
@@ -25,16 +24,16 @@ module.exports = {
   },
 
   /*
-  ** Customize the progress-bar color
-  */
+   ** Customize the progress-bar color
+   */
   loading: {
     color: '#E8D7F1',
     height: '5px'
   },
 
   /*
-  ** Page transistions
-  */
+   ** Page transistions
+   */
   transition: {
     name: 'fade',
     mode: 'out-in'
@@ -45,22 +44,22 @@ module.exports = {
   // },
 
   /*
-  ** Global CSS
-  */
+   ** Global CSS
+   */
   css: ['~/assets/style/app.styl', '~/assets/style/main.css'],
 
   /*
-  ** Plugins to load before mounting the App
-  */
+   ** Plugins to load before mounting the App
+   */
   plugins: ['@/plugins/vuetify', '~/plugins/sf.js'],
 
   /*
-  ** Nuxt.js modules
-  */
+   ** Nuxt.js modules
+   */
   modules: ['nuxt-client-init-module', '@nuxtjs/axios'],
   /*
-  ** Axios module configuration
-  */
+   ** Axios module configuration
+   */
   axios: {
     // See https://github.com/nuxt-community/axios-module#options
   },
@@ -68,12 +67,12 @@ module.exports = {
   // serverMiddleware: [bodyParser.json(), '~/api/index.js'],
 
   /*
-  ** Build configuration
-  */
+   ** Build configuration
+   */
   build: {
     /*
-    ** You can extend webpack config here
-    */
+     ** You can extend webpack config here
+     */
     extend(config, ctx) {
       // Run ESLint on save
       if (ctx.isDev && ctx.isClient) {

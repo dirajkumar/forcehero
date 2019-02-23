@@ -1,7 +1,5 @@
 <template>
-  <a 
-    class="logo"
-    @click.prevent="onLogoClick">
+  <a class="logo" @click.prevent="onLogoClick">
     <span class="forceText white--text">{{ title1 }}</span>
     <span class="heroText">{{ title2 }}</span>
   </a>

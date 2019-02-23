@@ -1,8 +1,5 @@
 <template>
-  <v-btn 
-    flat
-    fab
-  >
+  <v-btn flat fab>
     <v-icon>search</v-icon>
   </v-btn>
 </template>

@@ -4,15 +4,11 @@
       Oops! Unknown error has occured.
     </div>
     <div class="subheading mb-4">
-      Please click here to login again. 
+      Please click here to login again.
     </div>
     <div>
-      <v-btn
-        color="primary"
-        nuxt
-        to="/">Go to login page</v-btn>
+      <v-btn color="primary" nuxt to="/">Go to login page</v-btn>
     </div>
-    
   </div>
 </template>
 

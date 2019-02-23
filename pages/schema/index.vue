@@ -1,14 +1,9 @@
 <template>
-  <v-navigation-drawer 
-    permanent
-    class="transparent"
-    fixed
-    absolute>
-    <v-toolbar 
-      flat>
+  <v-navigation-drawer permanent class="transparent" fixed absolute>
+    <v-toolbar flat>
       <v-list class="pt-4">
         <v-list-tile>
-          <v-text-field 
+          <v-text-field
             v-model="objectSearchTerm"
             label="Search objects"
             prepend-inner-icon="search"
@@ -19,12 +14,8 @@
       </v-list>
     </v-toolbar>
 
-    <v-list 
-      class="pt-3" 
-      dense>
-      <v-list-tile 
-        v-for="item in filteredList" 
-        :key="item.name">
+    <v-list class="pt-3" dense>
+      <v-list-tile v-for="item in filteredList" :key="item.name">
         <v-list-tile-content>
           <v-list-tile-title>{{ item.name }}</v-list-tile-title>
         </v-list-tile-content>

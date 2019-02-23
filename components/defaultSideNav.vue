@@ -1,6 +1,6 @@
 <template>
   <div>
-    <v-navigation-drawer 
+    <v-navigation-drawer
       :mini-variant="miniVariant"
       v-model="drawer"
       class="primaryColor"
@@ -25,11 +25,7 @@
 
       <v-list dark>
         <template v-for="item in navigationItems">
-          <v-list-tile 
-            v-if="!item.hasChildren"
-            :key="item.to"
-            :to="item.to"
-          >
+          <v-list-tile v-if="!item.hasChildren" :key="item.to" :to="item.to">
             <v-list-tile-action>
               <v-icon>{{ item.icon }}</v-icon>
             </v-list-tile-action>
@@ -47,8 +43,8 @@
             <v-list-tile slot="activator">
               <v-list-tile-title>{{ item.label }}</v-list-tile-title>
             </v-list-tile>
-          
-            <v-list-tile 
+
+            <v-list-tile
               v-for="child in item.children"
               :key="child.to"
               :to="child.to"

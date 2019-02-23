@@ -1,7 +1,5 @@
 import express from 'express'
-import session from 'express-session'
 import consola from 'consola'
-import uuid from 'uuid'
 import bodyParser from 'body-parser'
 import cookieSession from 'cookie-session'
 import { Nuxt, Builder } from 'nuxt'

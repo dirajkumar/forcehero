@@ -2,7 +2,6 @@ import 'dotenv/config'
 import express from 'express'
 import jsforce from 'jsforce'
 import queryString from 'query-string'
-import uuid from 'uuid'
 
 import { encrypt, decrypt } from '../utils/crypt'
 
@@ -80,7 +79,7 @@ router.get('/api/auth/callback', async (req, res) => {
   }
 })
 
-router.get('/api/auth/logout', async (req, res) => {
+router.get('/api/auth/logout', async req => {
   try {
     console.log('code===', req.query.code)
     const data = decrypt(req.query.code)

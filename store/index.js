@@ -54,7 +54,6 @@ export const actions = {
   async logout({ commit }) {
     console.log('$sf logout===', this.$sf)
     console.log('code logout===', getCode())
-    debugger
     const code = getCode()
     if (!code) return
 

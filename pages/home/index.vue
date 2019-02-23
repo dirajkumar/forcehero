@@ -1,7 +1,5 @@
 <template>
-  <div>
-    Access Token: {{ '' }}
-  </div>
+  <div>Access Token: {{ '' }}</div>
 </template>
 
 <script>
