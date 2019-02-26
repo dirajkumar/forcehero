@@ -39,3 +39,11 @@ export const navigation = [
     hasChildren: false
   }
 ]
+
+export const currentNavigation = [
+  {
+    text: 'Home',
+    disabled: false,
+    href: '/'
+  }
+]

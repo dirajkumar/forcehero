@@ -1,11 +1,17 @@
 import { decrypt } from '@/utils/crypt'
-import { isAuth, apiVersion, navigation } from '@/utils/defaultState'
+import {
+  isAuth,
+  apiVersion,
+  navigation,
+  currentNavigation
+} from '@/utils/defaultState'
 import { getCode, removeCode } from '~/utils/auth'
 
 export const state = () => ({
   isAuth,
   apiVersion,
-  navigation
+  navigation,
+  currentNavigation
 })
 
 export const mutations = {
@@ -76,5 +82,6 @@ export const actions = {
 export const getters = {
   isAuthenticated: state => state.isAuth,
   apiVersion: state => state.apiVersion,
-  navigation: state => state.navigation
+  navigation: state => state.navigation,
+  currentNavigation: state => state.currentNavigation
 }
