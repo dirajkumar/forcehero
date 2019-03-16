@@ -1,37 +1,17 @@
 <template>
-  <!-- <v-navigation-drawer permanent class="transparent" fixed absolute>
-    <v-toolbar flat>
-      <v-list class="pt-4">
-        <v-list-tile>
-          <v-text-field
-            v-model="objectSearchTerm"
-            label="Search objects"
-            prepend-inner-icon="search"
-            browser-autocomplete="off"
-            clearable
-          />
-        </v-list-tile>
-      </v-list>
-    </v-toolbar>
-
-    <v-list class="pt-3" dense>
-      <v-list-tile v-for="item in filteredList" :key="item.name">
-        <v-list-tile-content>
-          <v-list-tile-title>{{ item.name }}</v-list-tile-title>
-        </v-list-tile-content>
-      </v-list-tile>
-    </v-list>
-  </v-navigation-drawer> -->
-  <!-- <v-breadcrumbs :items="items">
-    <v-icon slot="divider">chevron_right</v-icon>
-    <template slot="item" slot-scope="props">
-      <a :href="props.item.href" class="title font-weight-light">
-        {{ props.item.text.toUpperCase() }}
-      </a>
-      <span class="title font-weight-light">Schema</span>
-    </template>
-  </v-breadcrumbs> -->
-  <v-card height="80" class="pl-4 pr-2">
+  <v-card flat elevation="0" height="80" class="pl-4 pr-2 no-border">
+    <v-btn
+      :color="this.$vuetify.theme.primary"
+      fab
+      dark
+      small
+      bottom
+      right
+      absolute
+      @click="dialog = !dialog"
+    >
+      <v-icon color="white">mdi-reload</v-icon>
+    </v-btn>
     <v-card-title>
       <v-layout align-start justify-center class="pb-4">
         <v-icon large left>
@@ -40,17 +20,12 @@
         <v-layout align-start justify-start column class="pl-2">
           <div class="headline">
             <span>Schema</span>
-            <v-icon class="pl-1">mdi-reload</v-icon>
           </div>
-          <div class="grey--text">
-            <v-breadcrumbs :items="items" class="pa-0">
-              <v-icon slot="divider">forward</v-icon>
-              <!-- <template slot="item" slot-scope="props">
-                <a :href="props.item.href" class="subheading">
-                  {{ props.item.text }}
-                </a>
-              </template> -->
-            </v-breadcrumbs>
+          <div class="caption">
+            <span class="font-weight-regular font-italic">
+              Last Refreshed:
+            </span>
+            <span class="font-weight-medium">10 mins ago</span>
           </div>
         </v-layout>
       </v-layout>
@@ -63,6 +38,14 @@
         </v-flex>
       </v-layout> -->
     </v-card-title>
+    <v-layout column>
+      <v-container fluid grid-list-lg justify-center align-center>
+        <v-flex xs12 md-6>
+          Login to your salesforce org
+        </v-flex>
+        <v-icon class="emptyStateLarge">mdi-flower-outline</v-icon>
+      </v-container>
+    </v-layout>
   </v-card>
 </template>
 
@@ -120,3 +103,18 @@ export default {
   }
 }
 </script>
+
+<style>
+.emptyStateLarge {
+  font-size: 80px;
+}
+.no-border {
+  background-color: transparent !important;
+  border-style: solid;
+  border-width: thin 0 0 0;
+  border-color: rgba(0, 0, 0, 0.12) !important;
+  box-shadow: none;
+  border-bottom-width: thin;
+  border-top-style: unset;
+}
+</style>

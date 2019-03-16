@@ -18,6 +18,7 @@
             v-if="item.hasChildren"
             :key="item.to"
             :nudge-width="100"
+            transition="slide-y-transition"
             offset-y
           >
             <v-btn slot="activator" flat dark>

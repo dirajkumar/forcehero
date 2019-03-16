@@ -56,12 +56,16 @@ module.exports = {
   /*
    ** Nuxt.js modules
    */
-  modules: ['nuxt-client-init-module', '@nuxtjs/axios'],
+  modules: [
+    'nuxt-client-init-module',
+    '@nuxtjs/axios',
+    '@nuxtjs/google-analytics'
+  ],
   /*
    ** Axios module configuration
    */
-  axios: {
-    // See https://github.com/nuxt-community/axios-module#options
+  googleAnalytics: {
+    id: 'UA-12301-2'
   },
 
   // serverMiddleware: [bodyParser.json(), '~/api/index.js'],
