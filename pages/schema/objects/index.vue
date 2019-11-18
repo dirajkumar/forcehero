@@ -50,7 +50,8 @@
         </v-icon>
         <v-layout align-start justify-start column class="pl-2">
           <div class="headline">
-            <span>Objects</span>
+            <span>Schema</span>
+            <v-icon class="pl-1">mdi-reload</v-icon>
           </div>
           <div class="grey--text">
             <v-breadcrumbs :items="items" class="pa-0">
