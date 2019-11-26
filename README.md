@@ -1,6 +1,6 @@
 # forcehero
 
-> Best workbench alternative for Salesforce Devs/Admins
+> Best workbench alternate. Super fast Salesforce schema explorer, data & user management and much more.
 
 ## Build Setup
 

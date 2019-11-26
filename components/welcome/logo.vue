@@ -1,12 +1,14 @@
 <template>
+  <!-- <div class="fh-logo-container"> -->
   <div class="fh-logo">
-    <span class="fh-force mr-1">{{ title1 }}</span>
+    <span class="fh-force ml-2">{{ title1 }}</span>
     <span class="fh-hero mr-2">{{ title2 }}</span>
     <div class="fh-line-container d-flex align-center">
       <v-divider class="fh-line" />
       <span class="fh-dot"></span>
     </div>
   </div>
+  <!-- </div> -->
 </template>
 
 <script>
@@ -43,13 +45,13 @@ export default {
 
 <style>
 .fh-force {
-  font-size: 2rem;
+  font-size: 2.4rem;
   font-family: Panton-Regular;
   color: var(--v-primary-base);
 }
 
 .fh-hero {
-  font-size: 2rem;
+  font-size: 2.4rem;
   font-family: Panton-Bold;
   font-weight: bolder;
   color: var(--v-secondary-base);

@@ -6,21 +6,23 @@
     </section>
 
     <section class="fh-main hidden-md-and-down">
-      <v-card-title class="headline" />
+      <github-corner />
     </section>
   </div>
 </template>
 
 <script>
-import welcomeLogin from '@/components/welcomeLogin.vue'
-import welcomeFooter from '@/components/welcomeFooter.vue'
+import welcomeLogin from '@/components/welcome/login.vue'
+import welcomeFooter from '@/components/welcome/footer.vue'
+import githubCorner from '@/components/githubCorner.vue'
 
 export default {
   layout: 'welcome',
 
   components: {
     welcomeLogin,
-    welcomeFooter
+    welcomeFooter,
+    githubCorner
   },
 
   data() {
@@ -38,6 +40,7 @@ export default {
 
 .fh-login-container {
   flex: 1;
+  background-color: var(--v-accent-lighten2);
 }
 
 .fh-main {
