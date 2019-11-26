@@ -34,7 +34,7 @@ module.exports = {
   /*
    ** Page transistions
    */
-  transition: {
+  pageTransition: {
     name: 'fade',
     mode: 'out-in'
   },
@@ -51,7 +51,7 @@ module.exports = {
   /*
    ** Plugins to load before mounting the App
    */
-  plugins: ['@/plugins/vuetify', '~/plugins/sf.js'],
+  plugins: ['@/plugins/vuetify', '~/plugins/sf.js', '@/plugins/anime'],
 
   /*
    ** Nuxt.js modules

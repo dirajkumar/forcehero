@@ -1,46 +1,47 @@
 <template>
-  <v-layout column justify-center align-center>
-    <v-flex xs12 sm8 md6>
-      <v-card>
-        <v-card-title class="headline">
-          Login to your salesforce org
-        </v-card-title>
-        <v-card-text>
-          <p class="body-2">Login</p>
-        </v-card-text>
-        <v-card-actions>
-          <v-spacer />
-          <v-btn color="primary" nuxt @click="onProductionClick">
-            Production
-          </v-btn>
-          <v-btn nuxt outline @click="onSandboxClick">Sandbox</v-btn>
-        </v-card-actions>
-      </v-card>
-    </v-flex>
-  </v-layout>
+  <div class="d-flex fh-container">
+    <section class="fh-login-container d-flex flex-column justify-end">
+      <welcome-login />
+      <welcome-footer />
+    </section>
+
+    <section class="fh-main hidden-md-and-down">
+      <v-card-title class="headline" />
+    </section>
+  </div>
 </template>
 
 <script>
+import welcomeLogin from '@/components/welcomeLogin.vue'
+import welcomeFooter from '@/components/welcomeFooter.vue'
+
 export default {
   layout: 'welcome',
+
+  components: {
+    welcomeLogin,
+    welcomeFooter
+  },
+
   data() {
     return {
       title: 'forcehero'
     }
-  },
-  methods: {
-    async onProductionClick() {
-      const url = await this.$store.dispatch('login', {
-        orgType: 'PRODUCTION'
-      })
-      window.location.href = url
-    },
-    async onSandboxClick() {
-      const url = await this.$store.dispatch('login', {
-        orgType: 'SANDBOX'
-      })
-      window.location.href = url
-    }
   }
 }
 </script>
+
+<style scoped>
+.fh-container {
+  height: 100%;
+}
+
+.fh-login-container {
+  flex: 1;
+}
+
+.fh-main {
+  flex: 2.5;
+  background-color: var(--v-primary-base);
+}
+</style>

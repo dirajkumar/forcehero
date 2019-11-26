@@ -1,8 +1,8 @@
 <template>
   <div>
     <v-navigation-drawer
-      :mini-variant="miniVariant"
       v-model="drawer"
+      :mini-variant="miniVariant"
       class="primaryColor"
       disable-resize-watcher
       absolute

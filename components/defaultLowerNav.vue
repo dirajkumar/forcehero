@@ -1,10 +1,12 @@
 <template>
   <v-breadcrumbs :items="items">
-    <v-icon slot="divider">chevron_right</v-icon>
+    <v-icon slot="divider">
+      chevron_right
+    </v-icon>
     <template slot="item" slot-scope="props">
-      <!-- <a :href="props.item.href" class="title font-weight-light">
+      <a :href="props.item.href" class="title font-weight-light">
         {{ props.item.text.toUpperCase() }}
-      </a> -->
+      </a>
       <span class="subheading font-weight-regular">Schema</span>
     </template>
   </v-breadcrumbs>

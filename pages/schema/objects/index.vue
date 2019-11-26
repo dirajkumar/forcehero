@@ -41,7 +41,9 @@
       absolute
       @click="dialog = !dialog"
     >
-      <v-icon color="white">add</v-icon>
+      <v-icon color="white">
+        add
+      </v-icon>
     </v-btn>
     <v-card-title>
       <v-layout align-start justify-center class="pb-4">
@@ -51,11 +53,15 @@
         <v-layout align-start justify-start column class="pl-2">
           <div class="headline">
             <span>Schema</span>
-            <v-icon class="pl-1">mdi-reload</v-icon>
+            <v-icon class="pl-1">
+              mdi-reload
+            </v-icon>
           </div>
           <div class="grey--text">
             <v-breadcrumbs :items="items" class="pa-0">
-              <v-icon slot="divider">forward</v-icon>
+              <v-icon slot="divider">
+                forward
+              </v-icon>
               <template slot="item" slot-scope="props">
                 <a :href="props.item.href" class="subheading">
                   {{ props.item.text }}

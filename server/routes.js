@@ -69,8 +69,8 @@ router.get('/api/auth/callback', async (req, res) => {
     }
     console.log('data===', JSON.stringify(data))
 
-    const encryptedCode = encrypt(JSON.stringify(data))
-    req.session.code = encryptedCode
+    req.session.code = encrypt(JSON.stringify(data))
+
     res.redirect(process.env.APP_URL + '/home')
   } catch (err) {
     console.log('err==', err)

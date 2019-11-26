@@ -9,7 +9,9 @@
       offset-y
     >
       <v-btn slot="activator" icon>
-        <v-icon v-if="!showThumbnail" large>mdi-account-circle</v-icon>
+        <v-icon v-if="!showThumbnail" large>
+          mdi-account-circle
+        </v-icon>
         <v-list-tile v-if="showThumbnail" class="pa-0" avatar>
           <v-list-tile-avatar class="mb-3 ml-3">
             <img :src="user.thumbnail" :alt="user.name" />
@@ -80,9 +82,9 @@
           <v-list-tile>
             <v-list-tile-content>
               <v-list-tile-title>Language - Locale</v-list-tile-title>
-              <v-list-tile-sub-title>{{
-                user.language + ' - ' + user.locale
-              }}</v-list-tile-sub-title>
+              <v-list-tile-sub-title>
+                {{ user.language + ' - ' + user.locale }}
+              </v-list-tile-sub-title>
             </v-list-tile-content>
           </v-list-tile>
           <v-list-tile>

@@ -10,18 +10,22 @@
       absolute
       @click="dialog = !dialog"
     >
-      <v-icon color="white">mdi-reload</v-icon>
+      <v-icon color="white">
+        mdi-reload
+      </v-icon>
     </v-btn>
-    <default-schema-header />
+    <!-- <default-schema-header /> -->
     <v-layout column>
       <v-flex xs12 md-6>
         <v-list two-line>
-          <v-subheader :key="index">Standard Objects</v-subheader>
+          <v-subheader :key="index">
+            Standard Objects
+          </v-subheader>
           <template v-for="(item, index) in filteredList">
             <v-list-tile :key="item.label" avatar>
               <v-list-tile-content>
-                <v-list-tile-title v-html="item.label" />
-                <v-list-tile-sub-title v-html="item.name" />
+                <!-- <v-list-tile-title v-html="item.label" />
+                <v-list-tile-sub-title v-html="item.name" /> -->
               </v-list-tile-content>
             </v-list-tile>
             <v-divider :key="index" :inset="item.inset" />
@@ -41,13 +45,13 @@
 </template>
 
 <script>
-import defaultSchemaHeader from '@/components/defaultSchemaHeader.vue'
+// import defaultSchemaHeader from '@/components/defaultSchemaHeader.vue'
 import _ from 'lodash'
 
 export default {
-  components: {
-    defaultSchemaHeader
-  },
+  // components: {
+  //   defaultSchemaHeader
+  // },
   middleware: 'isAuthenticated',
   data() {
     return {

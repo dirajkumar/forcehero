@@ -1,7 +1,7 @@
 <template>
-  <v-toolbar :color="this.$vuetify.theme.primary" fixed dark app>
+  <v-toolbar :color="this.$vuetify.theme.primary" fixed dark>
     <v-toolbar-title>
-      <logo />
+      <default-logo />
     </v-toolbar-title>
     <v-spacer />
     <v-toolbar-items>
@@ -13,11 +13,11 @@
 </template>
 
 <script>
-import logo from '@/components/logo.vue'
+import defaultLogo from '@/components/defaultLogo.vue'
 
 export default {
   components: {
-    logo
+    defaultLogo
   },
   data() {
     return {

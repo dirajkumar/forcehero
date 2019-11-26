@@ -9,7 +9,9 @@
     </div>
 
     <div>
-      <v-btn color="primary" nuxt to="/">Go to login page</v-btn>
+      <v-btn color="primary" nuxt to="/">
+        Go to login page
+      </v-btn>
     </div>
   </div>
 </template>
