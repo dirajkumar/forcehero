@@ -3,10 +3,10 @@
     class="fh-login-container d-flex flex-column align-center justify-center"
   >
     <welcome-logo />
-    <div class="fh-subtitle font-weight-light subtitle-1 pt-2">
+    <div class="fh-subtitle font-weight-light subtitle-1">
       Empowering salesforce techies to become superheros
     </div>
-    <div class="pa-10 mt-5 fh-login">
+    <div class="pa-10 fh-login">
       <div
         class="subtitle-2 
           font-weight-light 

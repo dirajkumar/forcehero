@@ -1,13 +1,8 @@
 import 'dotenv/config'
-import express from 'express'
 import jsforce from 'jsforce'
 import queryString from 'query-string'
 
-import { encrypt, decrypt } from '../utils/crypt'
-
-const router = express.Router()
-
-router.get('/api/auth/loginInfo', async (req, res) => {
+export const login = async (req, res) => {
   try {
     let baseUrl = process.env.SF_PROD_URL
 
@@ -28,8 +23,6 @@ router.get('/api/auth/loginInfo', async (req, res) => {
       state
     }
 
-    req.session = null
-
     const data = {
       loginUrl:
         baseUrl +
@@ -38,13 +31,13 @@ router.get('/api/auth/loginInfo', async (req, res) => {
         queryString.stringify(params)
     }
 
-    res.send(encrypt(JSON.stringify(data)))
+    res.send(JSON.stringify(data))
   } catch (e) {
     console.log('error getting Url=====', e)
   }
-})
+}
 
-router.get('/api/auth/callback', async (req, res) => {
+export const callback = async (req, res) => {
   try {
     const state = Buffer.from(req.query.state, 'base64')
     const { baseUrl } = JSON.parse(state)
@@ -69,20 +62,23 @@ router.get('/api/auth/callback', async (req, res) => {
     }
     console.log('data===', JSON.stringify(data))
 
-    req.session.code = encrypt(JSON.stringify(data))
+    const token = Buffer.from(JSON.stringify(data)).toString('base64')
+    
+    res.cookie('accessToken', conn.accessToken, { httpOnly: true })
+    res.cookie('instanceUrl', conn.instanceUrl, { httpOnly: true })
 
-    res.redirect(process.env.APP_URL + '/home')
+    res.redirect(process.env.APP_URL + '/validate/session?token=' + token)
   } catch (err) {
     console.log('err==', err)
     res.redirect(process.env.APP_URL + '/errors/unknown')
     return
   }
-})
+}
 
-router.get('/api/auth/logout', async req => {
+export const logout = async (req, res) => {
   try {
     console.log('code===', req.query.code)
-    const data = decrypt(req.query.code)
+    const data = req.query.code
     const { accessToken, instanceUrl } = JSON.parse(data)
     console.log('accessToken===', accessToken)
     console.log('instanceUrl===', instanceUrl)
@@ -91,15 +87,8 @@ router.get('/api/auth/logout', async req => {
       serverUrl: instanceUrl
     })
     req.session = null
-    await conn.logout(err => {
-      if (err) {
-        return console.error(err)
-      }
-      console.log('successfuully logged out')
-    })
+    await conn.logout(err => (err) ? console.error(err) : console.log('successfuully logged out'))
   } catch (e) {
     console.log('error getting callback=====', e)
   }
-})
-
-export default router
+}

@@ -33,8 +33,10 @@
 }
 
 .github-corner svg {
-  fill: var(--v-accent-lighten2);
-  color: var(--v-primary-base);
+  fill: var(--v-primary-base);
+  color: var(--v-accent-lighten2);
+  /* fill: var(--v-accent-lighten2);
+  color: var(--v-primary-base); */
   position: absolute;
   top: 0;
   border: 0;

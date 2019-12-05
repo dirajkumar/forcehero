@@ -1,9 +1,11 @@
+import 'dotenv/config'
 import express from 'express'
+import cookieSession from 'cookie-session'
+import cookieParser from 'cookie-parser'
 import consola from 'consola'
 import bodyParser from 'body-parser'
-import cookieSession from 'cookie-session'
 import { Nuxt, Builder } from 'nuxt'
-import router from './routes'
+import router from './router'
 
 const app = express()
 const host = process.env.HOST || '127.0.0.1'
@@ -30,21 +32,27 @@ app.use(
 
 app.use(bodyParser.json())
 
+app.use('/', router)
+
 app.use(
   cookieSession({
     name: 'session',
-    keys: ['key1', 'key2'],
-    httpOnly: false
+    keys: [process.env.CIPHER_KEY],
+
+    // Cookie Options
+    maxAge: 60 * 1000,
+    domain: process.env.APP_URL
   })
 )
 
-app.use('/', router)
+app.use(cookieParser())
 
 app.use((req, res, next) => {
-  res.header('Access-Control-Allow-Origin', '*')
+  res.header('Access-Control-Allow-Origin', 'http://localhost:3000')
   res.header('Access-Control-Allow-Methods', 'GET,POST,PATCH,PUT,DELETE')
   res.header('Access-Control-Allow-Headers', ALLOWED_HEADERS.join(','))
   res.header('Access-Control-Expose-Headers', 'SForce-Limit-Info')
+  res.header('Access-Control-Allow-Credentials', 'true')
   if (req.method === 'OPTIONS') {
     res.end()
     return

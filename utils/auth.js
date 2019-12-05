@@ -1,36 +1,36 @@
-import Cookie from 'js-cookie'
-import { decrypt } from './crypt'
-
-export const setCode = () => {
+export const setCode = code => {
   if (process.server) return
 
-  const base64Session = Cookie.get('session') || null
-  if (!base64Session) return
-
-  const baseObj = window.atob(base64Session) || null
+  const baseObj = window.atob(code) || null
   if (!baseObj) return
 
-  const data = JSON.parse(baseObj)['code'] || null
-  if (!data) return
+  // const token = JSON.parse(baseObj)['token'] || null
+  // const user = JSON.parse(baseObj)['user'] || null
+  // const instanceUrl = JSON.parse(baseObj)['instanceUrl'] || null
 
-  const code = decrypt(data)
-  window.sessionStorage.setItem('code', code)
+  // window.sessionStorage.setItem('token', token)
+  // window.sessionStorage.setItem('user', user)
+  // window.sessionStorage.setItem('instanceUrl', instanceUrl)
 }
 
 export const getCode = () => {
   if (process.server) return null
 
-  return window.sessionStorage.getItem('code') || null
+  return window.sessionStorage.getItem('token') || null
 }
 
-export const getCodeFromSession = () => {
-  if (process.client) return null
+export const getInstanceUrl = () => {
+  if (process.server) return null
 
-  return window.sessionStorage.getItem('code') || null
+  return window.sessionStorage.getItem('instanceUrl') || null
+}
+
+export const getUser = () => {
+  if (process.server) return null
+
+  return window.sessionStorage.getItem('user') || null
 }
 
 export const removeCode = () => {
-  window.sessionStorage.removeItem('code')
-  Cookie.remove('session')
-  Cookie.remove('session.sig')
+  window.sessionStorage.removeItem('token')
 }

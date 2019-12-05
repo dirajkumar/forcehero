@@ -1,4 +1,3 @@
-import { decrypt } from '@/utils/crypt'
 import {
   isAuth,
   apiVersion,
@@ -42,19 +41,17 @@ export const actions = {
   },
 
   async login({ commit }, { orgType }) {
-    const response = await this.app.$axios.get('/api/auth/loginInfo', {
+    const response = await this.app.$axios.get('/api/auth/login', {
       params: {
         orgType
       }
     })
     commit('SET_AUTH', null)
-    const code = decrypt(response.data)
-    if (!code) return null
+    const code = response.data
 
-    const data = JSON.parse(code)
-    if (!data || !data.loginUrl) return null
+    if (!code || !code.loginUrl) return null
 
-    return data.loginUrl
+    return code.loginUrl
   },
 
   async logout({ commit }) {
@@ -63,11 +60,6 @@ export const actions = {
     const code = getCode()
     if (!code) return
 
-    // const response = await this.app.$axios.get('/api/auth/logout', {
-    //   params: {
-    //     code: encrypt(JSON.stringify(code))
-    //   }
-    // })
     commit('SET_AUTH', null)
     removeCode()
     await this.$sf.logout(err => {

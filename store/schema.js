@@ -10,14 +10,10 @@ export const mutations = {
 
 export const actions = {
   async retrieveObjectList({ commit }) {
-    if (!this.$sf) {
-      return null
-    }
-    console.log('$sf===', this.$sf)
     try {
       // const meta = await this.$sf.sobject('Account').describe()
       // const meta = await this.$sf.metadata.describe()
-      const meta = await this.$sf.describeGlobal()
+      const meta = await this.$axios.$get('/api/schema/objects')
       console.log('meta===', meta)
       commit('SET_OBJECT_LIST', meta.sobjects)
     } catch (err) {

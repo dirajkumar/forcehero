@@ -4,9 +4,8 @@
       <welcome-login />
       <welcome-footer />
     </section>
-
     <section class="fh-main hidden-md-and-down">
-      <github-corner />
+      <welcome-main />
     </section>
   </div>
 </template>
@@ -14,15 +13,17 @@
 <script>
 import welcomeLogin from '@/components/welcome/login.vue'
 import welcomeFooter from '@/components/welcome/footer.vue'
-import githubCorner from '@/components/githubCorner.vue'
+import welcomeMain from '@/components/welcome/main.vue'
 
 export default {
-  layout: 'welcome',
+  auth: false,
+
+  layout: 'landing',
 
   components: {
     welcomeLogin,
     welcomeFooter,
-    githubCorner
+    welcomeMain
   },
 
   data() {
@@ -45,6 +46,7 @@ export default {
 
 .fh-main {
   flex: 2.5;
-  background-color: var(--v-primary-base);
+  height: 100%;
+  /* background-color: var(--v-primary-base); */
 }
 </style>

@@ -40,7 +40,7 @@ module.exports = {
   },
 
   // router: {
-  //   middleware: 'checkAuth'
+  //   middleware: 'auth'
   // },
 
   /*
@@ -51,14 +51,18 @@ module.exports = {
   /*
    ** Plugins to load before mounting the App
    */
-  plugins: ['@/plugins/vuetify', '~/plugins/sf.js', '@/plugins/anime'],
+  plugins: [
+    '@/plugins/vuetify',
+    '~/plugins/sf.client.js',
+    '@/plugins/anime.client.js'
+  ],
 
   /*
    ** Nuxt.js modules
    */
   modules: [
-    'nuxt-client-init-module',
     '@nuxtjs/axios',
+    // '@nuxtjs/auth',
     '@nuxtjs/google-analytics'
   ],
   /*
@@ -68,7 +72,20 @@ module.exports = {
     id: 'UA-12301-2'
   },
 
-  // serverMiddleware: [bodyParser.json(), '~/api/index.js'],
+  // auth: {
+  //   strategies: {
+  //     social: {
+  //       _scheme: 'sf',
+  //       authorization: process.env.SALESFORCE_AUTH_URL,
+  //       tokenURL: process.env.SALESFORCE_TOKEN_URL,
+  //       userInfoURL: process.env.SALESFORCE_USER_INFO_URL,
+  //       clientID: process.env.SALESFORCE_CLIENT_ID,
+  //       clientSecret: process.env.SALESFORCE_CLIENT_SECRET
+  //     }
+  //   }
+  // },
+
+  // serverMiddleware: ['~/serverMiddleware/selectiveSSR.js'],
 
   /*
    ** Build configuration
