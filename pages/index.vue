@@ -47,6 +47,5 @@ export default {
 .fh-main {
   flex: 2.5;
   height: 100%;
-  /* background-color: var(--v-primary-base); */
 }
 </style>

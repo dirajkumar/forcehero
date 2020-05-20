@@ -1,31 +1,24 @@
 <template>
-  <div class="d-flex flex-column fh-cont">
+  <div class="d-flex flex-column fh-main-container">
     <div class="fh-header">
-      <div class="float-left">
-        <main-logo />
-      </div>
-      <div class="float-right">
-        Features
-      </div>
+      <nav-bar />
       <github-corner />
     </div>
-    <div class="fh-main-container">
-      <div class="fh-main">
-        <div class="display-3">
-          Empowering salesforce techies to become superheros
-        </div>
+    <div class="fh-main-content">
+      <div class="display-3">
+        Empowering salesforce techies to become superheros
       </div>
     </div>
   </div>
 </template>
 
 <script>
-import mainLogo from '@/components/welcome/mainLogo.vue'
+import navBar from '@/components/welcome/navBar.vue'
 import githubCorner from '@/components/githubCorner.vue'
 
 export default {
   components: {
-    mainLogo,
+    navBar,
     githubCorner
   },
 
@@ -54,20 +47,21 @@ export default {
 </script>
 
 <style scoped>
-.fh-cont {
+.fh-main-container {
   height: 100%;
+  background-color: var(--v-primary-base);
 }
 .fh-header {
   flex: 1;
 }
-.fh-main-container {
+/* .fh-main-container {
   background: linear-gradient(
       rgba(232, 215, 241, 0.45),
       rgba(232, 215, 241, 0.45)
     ),
     url(~assets/images/welcome/landing-background.svg);
-}
-.fh-main {
+} */
+.fh-main-content {
   flex: 1;
 }
 </style>
